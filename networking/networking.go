@@ -14,8 +14,8 @@ func SendSoap(httpClient *http.Client, endpoint, message string) (*http.Response
 		return resp, errors.Annotate(err, "Post")
 	}
 
-	// if resp.StatusCode is 5xx, return error
-	if resp.StatusCode >= 500 && resp.StatusCode < 600 {
+	// if resp.StatusCode is 4xx,5xx, return error
+	if resp.StatusCode >= 400 && resp.StatusCode < 600 {
 		return resp, errors.Errorf("Server error: %d: %s", resp.StatusCode, resp.Status)
 	}
 
