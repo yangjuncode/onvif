@@ -145,6 +145,10 @@ func callNecessaryMethod(serviceName, methodName, acceptedData, username, passwo
 
 	servResp, err := networking.SendSoap(new(http.Client), endpoint, soap.String())
 	if err != nil {
+		servResp, err = networking.SendSoapWithDigest(new(http.Client), endpoint, soap.String(), username, password)
+	}
+
+	if err != nil {
 		return "", errors.Annotate(err, "SendSoap")
 	}
 
