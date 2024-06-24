@@ -293,5 +293,10 @@ func (dev Device) callMethodDo(endpoint string, method interface{}) (*http.Respo
 		soap.AddWSSecurity(dev.params.Username, dev.params.Password)
 	}
 
-	return networking.SendSoap(dev.params.HttpClient, endpoint, soap.String())
+	servResp, err := networking.SendSoap(dev.params.HttpClient, endpoint, soap.String())
+	if err != nil {
+		servResp, err = networking.SendSoapWithDigest(new(http.Client), endpoint, soap.String(), dev.params.Username, dev.params.Password)
+	}
+
+	return servResp, err
 }
